@@ -1,0 +1,161 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Load Head Essentials here -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale = 1.0, initial-scale = 1.0, maximum-scale = 1.0, user-scalable=no">
+
+    <title>Demo</title>
+    <meta name="description" content="Demo">
+
+    <!--
+      If deploying to a non-root path, replace href="/" with the full path to the project root.
+      For example: href="/polymer-starter-kit/relative-path-example/"
+    -->
+    <base href="/">
+
+    <link rel="icon" href="images/favicon.ico">
+
+  </head>
+  <body>
+
+    <header>
+      <nav>
+        <ul>
+          <li>
+            <a href="/">
+              Home
+            </a>
+          </li>
+          <li>
+            <a href="/page-1">
+              Page One
+            </a>
+          </li>
+          <li>
+            <a href="/page-2">
+              Page Two
+            </a>
+
+            <ul>
+              <li>
+                <a href="/page-2/sub-1">
+                  Page Two Sub 1
+                </a>
+              </li>
+              <li>
+                <a href="/page-2/sub-2">
+                  Page Two Sub 2
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="/page-3">
+              Page Three
+            </a>
+            <ul>
+              <li>
+                <a href="/page-3/sub-1">
+                  Page Three Sub 1
+                </a>
+              </li>
+              <li>
+                <a href="/page-3/sub-2">
+                  Page Three Sub 2
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="/page-4">
+              Page Three
+            </a>
+            <ul>
+              <li>
+                <a href="/page-4/id-1">
+                  Page Three Sub 1
+                </a>
+              </li>
+              <li>
+                <a href="/page-4/id-2">
+                  Page Three Sub 2
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="/non-existing">
+              Non existing page
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <littleq-router>
+      <middleware-all></middleware-all>
+      <littleq-route route="/" page="landing-page"></littleq-route>
+      <littleq-route route="/page-1" page="page-one"></littleq-route>
+      <littleq-route route="/page-2" page="page-two">
+        <littleq-route route="/sub-1" page="page-two-sub-one"></littleq-route>
+        <littleq-route route="/sub-2" page="page-two-sub-two">
+          <middleware-one></middleware-one>
+        </littleq-route>
+      </littleq-route>
+      <littleq-route route="/page-3" page="page-three">
+        <middleware-two></middleware-two>
+        <littleq-route route="/sub-1" page="page-three-sub-one"></littleq-route>
+        <littleq-route route="/sub-2" page="page-three-sub-two">
+          <middleware-one></middleware-one>
+        </littleq-route>
+      </littleq-route>
+      <littleq-route route="/page-4/:id?" page="page-four">
+        <middleware-three></middleware-three>
+      </littleq-route>
+      <littleq-route route="/login" page="login-page">
+        <middleware-four></middleware-four>
+      </littleq-route>
+      <littleq-route page="404-page">
+      </littleq-route>
+    </littleq-router>
+    <!-- Load Scripts here -->
+    <!--
+  Feature detect Custom Elements support. If the browser DOES support Custom
+  Elements then we need to load the custom-elements-es5-adapter because
+  our project code has been transpiled from ES2015 to ES5 and native Custom
+  Elements expect elements will be registered as classes.
+-->
+<div id="ce-es5-shim">
+  <script type="text/javascript">
+    if (!window.customElements) {
+      var ceShimContainer = document.querySelector('#ce-es5-shim');
+      ceShimContainer.parentElement.removeChild(ceShimContainer);
+    }
+  </script>
+  <script type="text/javascript" src="./webcomponentsjs/custom-elements-es5-adapter.js"></script>
+</div>
+
+<!--
+  Use the webcomponents-loader script which will feature detect which Web
+  Components features are missing and lazy load the appropriate polyfills.
+  When we hear the 'WebComponentsReady' event from the polyfill bundle we can
+  insert our 'bundle.js'.
+-->
+<script>
+  (function () {
+    document.addEventListener('WebComponentsReady', function componentsReady() {
+      document.removeEventListener('WebComponentsReady', componentsReady, false)
+      var script = document.createElement('script')
+      script.src = 'main.js'
+      var refScript = document.getElementsByTagName('script')[0]
+      refScript.parentNode.insertBefore(script, refScript)
+
+    }, false)
+  })()
+</script>
+<script src="./webcomponentsjs/webcomponents-loader.js"></script>
+  </body>
+</html>
