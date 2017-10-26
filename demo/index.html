@@ -21,6 +21,25 @@
   </head>
   <body>
 
+    <lazy-loader>
+      <lazy-load module="landing-page" href="script/landing-page.js"></lazy-load>
+      <lazy-load module="page-one" href="script/page-one.js"></lazy-load>
+      <lazy-load module="page-two" href="script/page-two.js"></lazy-load>
+      <lazy-load module="page-three" href="script/page-three.js"></lazy-load>
+      <lazy-load module="page-four" href="script/page-four.js"></lazy-load>
+      <lazy-load module="page-two-sub-one" href="script/page-two-sub-one.js"></lazy-load>
+      <lazy-load module="page-two-sub-two" href="script/page-two-sub-two.js"></lazy-load>
+      <lazy-load module="page-three-sub-one" href="script/page-three-sub-one.js"></lazy-load>
+      <lazy-load module="page-three-sub-two" href="script/page-three-sub-two.js"></lazy-load>
+      <lazy-load module="page-404" href="script/page-404.js"></lazy-load>
+      <lazy-load module="login-page" href="script/login-page.js"></lazy-load>
+      <lazy-load module="middleware-all" href="script/middleware-all.js"></lazy-load>
+      <lazy-load module="middleware-one" href="script/middleware-one.js"></lazy-load>
+      <lazy-load module="middleware-two" href="script/middleware-two.js"></lazy-load>
+      <lazy-load module="middleware-three" href="script/middleware-three.js"></lazy-load>
+      <lazy-load module="middleware-four" href="script/middleware-four.js"></lazy-load>
+    </lazy-loader>
+
     <header>
       <nav>
         <ul>
@@ -71,17 +90,17 @@
           </li>
           <li>
             <a href="/page-4">
-              Page Three
+              Page Four
             </a>
             <ul>
               <li>
                 <a href="/page-4/id-1">
-                  Page Three Sub 1
+                  Page Four Sub 1
                 </a>
               </li>
               <li>
                 <a href="/page-4/id-2">
-                  Page Three Sub 2
+                  Page Four Sub 2
                 </a>
               </li>
             </ul>
@@ -95,8 +114,8 @@
       </nav>
     </header>
 
-    <littleq-router>
-      <middleware-all></middleware-all>
+    <littleq-router default-redirect="login-page">
+      <!-- <middleware-all></middleware-all> -->
       <littleq-route route="/" page="landing-page"></littleq-route>
       <littleq-route route="/page-1" page="page-one"></littleq-route>
       <littleq-route route="/page-2" page="page-two">
@@ -107,7 +126,7 @@
       </littleq-route>
       <littleq-route route="/page-3" page="page-three">
         <middleware-two></middleware-two>
-        <littleq-route route="/sub-1" page="page-three-sub-one"></littleq-route>
+        <littleq-route route="/sub-1" page="page-three-sub-one" redirect="page-404"></littleq-route>
         <littleq-route route="/sub-2" page="page-three-sub-two">
           <middleware-one></middleware-one>
         </littleq-route>
@@ -118,44 +137,44 @@
       <littleq-route route="/login" page="login-page">
         <middleware-four></middleware-four>
       </littleq-route>
-      <littleq-route page="404-page">
+      <littleq-route page="page-404">
       </littleq-route>
     </littleq-router>
     <!-- Load Scripts here -->
     <!--
-  Feature detect Custom Elements support. If the browser DOES support Custom
-  Elements then we need to load the custom-elements-es5-adapter because
-  our project code has been transpiled from ES2015 to ES5 and native Custom
-  Elements expect elements will be registered as classes.
--->
-<div id="ce-es5-shim">
-  <script type="text/javascript">
-    if (!window.customElements) {
-      var ceShimContainer = document.querySelector('#ce-es5-shim');
-      ceShimContainer.parentElement.removeChild(ceShimContainer);
-    }
-  </script>
-  <script type="text/javascript" src="./webcomponentsjs/custom-elements-es5-adapter.js"></script>
-</div>
+      Feature detect Custom Elements support. If the browser DOES support Custom
+      Elements then we need to load the custom-elements-es5-adapter because
+      our project code has been transpiled from ES2015 to ES5 and native Custom
+      Elements expect elements will be registered as classes.
+    -->
+    <div id="ce-es5-shim">
+      <script type="text/javascript">
+        if (!window.customElements) {
+          var ceShimContainer = document.querySelector('#ce-es5-shim');
+          ceShimContainer.parentElement.removeChild(ceShimContainer);
+        }
+      </script>
+      <script type="text/javascript" src="script/custom-elements-es5-adapter.js"></script>
+    </div>
 
-<!--
-  Use the webcomponents-loader script which will feature detect which Web
-  Components features are missing and lazy load the appropriate polyfills.
-  When we hear the 'WebComponentsReady' event from the polyfill bundle we can
-  insert our 'bundle.js'.
--->
-<script>
-  (function () {
-    document.addEventListener('WebComponentsReady', function componentsReady() {
-      document.removeEventListener('WebComponentsReady', componentsReady, false)
-      var script = document.createElement('script')
-      script.src = 'main.js'
-      var refScript = document.getElementsByTagName('script')[0]
-      refScript.parentNode.insertBefore(script, refScript)
-
-    }, false)
-  })()
-</script>
-<script src="./webcomponentsjs/webcomponents-loader.js"></script>
+    <!--
+      Use the webcomponents-loader script which will feature detect which Web
+      Components features are missing and lazy load the appropriate polyfills.
+      When we hear the 'WebComponentsReady' event from the polyfill bundle we can
+      insert our 'bundle.js'.
+    -->
+    <script src="script/common.js"></script>
+    <script>
+      (function () {
+        document.addEventListener('WebComponentsReady', function componentsReady() {
+          document.removeEventListener('WebComponentsReady', componentsReady, false)
+          var script = document.createElement('script')
+          script.src = 'script/main.js'
+          var refScript = document.getElementsByTagName('script')[0]
+          refScript.parentNode.insertBefore(script, refScript)
+        }, false)
+      })()
+    </script>
+    <script src="script/webcomponents-loader.js"></script>
   </body>
 </html>

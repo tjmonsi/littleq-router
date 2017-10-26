@@ -19,11 +19,27 @@ const babelOptions = {
 module.exports = () => {
   return {
     entry: {
-      main: path.resolve(__dirname, './index.js')
+      'main': path.resolve(__dirname, './index.js'),
+      'landing-page': path.resolve(__dirname, './pages/landing-page/index.js'),
+      'login-page': path.resolve(__dirname, './pages/login-page/index.js'),
+      'page-one': path.resolve(__dirname, './pages/page-one/index.js'),
+      'page-two': path.resolve(__dirname, './pages/page-two/index.js'),
+      'page-three': path.resolve(__dirname, './pages/page-three/index.js'),
+      'page-four': path.resolve(__dirname, './pages/page-four/index.js'),
+      'page-two-sub-one': path.resolve(__dirname, './pages/page-two-sub-one/index.js'),
+      'page-two-sub-two': path.resolve(__dirname, './pages/page-two-sub-two/index.js'),
+      'page-three-sub-one': path.resolve(__dirname, './pages/page-three-sub-one/index.js'),
+      'page-three-sub-two': path.resolve(__dirname, './pages/page-three-sub-two/index.js'),
+      'page-404': path.resolve(__dirname, './pages/page-404/index.js'),
+      'middleware-all': path.resolve(__dirname, './middlewares/middleware-all.js'),
+      'middleware-one': path.resolve(__dirname, './middlewares/middleware-one.js'),
+      'middleware-two': path.resolve(__dirname, './middlewares/middleware-two.js'),
+      'middleware-three': path.resolve(__dirname, './middlewares/middleware-three.js'),
+      'middleware-four': path.resolve(__dirname, './middlewares/middleware-four.js')
     },
     output: {
       filename: '[name].js',
-      path: path.resolve(__dirname, './')
+      path: path.resolve(__dirname, './script')
     },
     resolve: {
       modules: [
@@ -32,14 +48,17 @@ module.exports = () => {
       ]
     },
     plugins: [
+      new webpack.optimize.CommonsChunkPlugin({
+        name: 'common' // Specify the common bundle's name.
+      }),
       new CopyWebpackPlugin([
         {
           from: path.resolve(__dirname, './node_modules/@webcomponents/webcomponentsjs/*.js'),
-          to: 'webcomponentsjs/[name].[ext]'
+          to: './[name].[ext]'
         },
         {
           from: path.resolve(__dirname, './node_modules/@webcomponents/webcomponentsjs/*.map'),
-          to: 'webcomponentsjs/[name].[ext]'
+          to: './[name].[ext]'
         }
       ]),
       new webpack.SourceMapDevToolPlugin({

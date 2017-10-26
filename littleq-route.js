@@ -16,6 +16,10 @@ class LittleqRoute extends ReduxMixin(QueryParamsMixin(LocationMixin(Element))) 
         type: String
       },
 
+      redirect: {
+        type: String
+      },
+
       route: {
         type: String,
         value: 'not-found'
@@ -40,7 +44,7 @@ class LittleqRoute extends ReduxMixin(QueryParamsMixin(LocationMixin(Element))) 
       router = router.parentNode;
     } while (router.tagName.toLowerCase() !== 'littleq-router');
     const page = router.querySelector('[slot="page"]');
-    page ? router._removePage(page, this) : router._showPage(this);
+    page ? router._removePage(page, this) : router._checkMiddlewares(this);
   }
 
   _checkRoute (route) {
@@ -79,8 +83,6 @@ class LittleqRoute extends ReduxMixin(QueryParamsMixin(LocationMixin(Element))) 
   }
 }
 
-if (!customElements.get(LittleqRoute.is)) {
-  customElements.define(LittleqRoute.is, LittleqRoute);
-} else {
-  console.warn(`${LittleqRoute.is} is already defined`);
-}
+!customElements.get(LittleqRoute.is)
+  ? customElements.define(LittleqRoute.is, LittleqRoute)
+  : console.warn(`${LittleqRoute.is} is already defined`);
