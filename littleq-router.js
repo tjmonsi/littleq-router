@@ -2,7 +2,7 @@ import { Element } from '@polymer/polymer/polymer-element';
 import { Debouncer } from '@polymer/polymer/lib/utils/debounce';
 import { timeOut } from '@polymer/polymer/lib/utils/async';
 import { ReduxMixin } from '@littleq/state-manager';
-import { customElements, HTMLElement, HTMLUnknownElement } from 'global/window';
+import { customElements, alert } from 'global/window';
 import { ROUTER_ACTION } from './lib/reducer';
 import getAnimationEvent from './lib/get-animation-event';
 import pathToRegexp from 'path-to-regexp';
@@ -138,18 +138,9 @@ class LittleqRouter extends ReduxMixin(QueryParamsMixin(LocationMixin(Element)))
   }
 
   _removePageAfterTransition (oldPage, route, transition, fn) {
-    if (this._timeOut) {
-      clearTimeout(this._timeOut);
-    }
-
-    if (transition && fn) {
-      oldPage.removeEventListener(transition, fn);
-    }
-
-    if (this.contains(oldPage)) {
-      this.removeChild(oldPage);
-    }
-
+    if (this._timeOut) clearTimeout(this._timeOut);
+    if (transition && fn) oldPage.removeEventListener(transition, fn);
+    if (this.contains(oldPage)) this.removeChild(oldPage);
     this._checkMiddlewares(route);
   }
 
@@ -195,12 +186,15 @@ class LittleqRouter extends ReduxMixin(QueryParamsMixin(LocationMixin(Element)))
         return this._getMiddleware(middleware);
       })
       .catch(e => {
-        if (this.currentRoute !== 'not-found') {
-          this.dispatch({
-            type: ROUTER_ACTION.ROUTE,
-            route: 'not-found'
-          });
-        }
+        console.error(e);
+        alert(e.message);
+        return false;
+        // if (this.currentRoute !== 'not-found') {
+        //   this.dispatch({
+        //     type: ROUTER_ACTION.ROUTE,
+        //     route: 'not-found'
+        //   });
+        // }
       });
   }
 
