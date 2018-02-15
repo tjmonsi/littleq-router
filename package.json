@@ -1,6 +1,6 @@
 {
   "name": "@littleq/littleq-router",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Little Q projects' simple router element.",
   "main": "index.js",
   "scripts": {
@@ -67,7 +67,7 @@
     "@littleq/state-manager": "0.0.2"
   },
   "dependencies": {
-    "@littleq/location-mixin": "^0.0.3",
+    "@littleq/location-mixin": "^0.0.4",
     "@littleq/query-params-mixin": "^0.0.1",
     "@littleq/state-manager": "^0.0.2",
     "@polymer/polymer": "^3.0.0-pre.1",
